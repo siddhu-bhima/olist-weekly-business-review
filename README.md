@@ -1,6 +1,6 @@
 # Olist Weekly Business Review - ELT pipeline, data quality and analysis
 
-**Student:** B. Siddhu  |  **Reg. No:** 127003037  |  **Course:** Big Data in Industry - Take-Home Assignment 1
+**Name:** B.Siddhu  |  **Reg No:** 127003037  |  **Course:** Big Data in Industry - Take-Home Assignment 1
 
 A small, idempotent ELT pipeline over the [Olist Brazilian E-Commerce dataset](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce):
 raw CSVs → DuckDB `raw` → `staging` → `mart`, guarded by SQL data-quality checks that stop the run
@@ -10,7 +10,7 @@ script that builds the PDF report.
 ## Repository layout
 
 ```
-olist-wbr/
+olist-weekly-business-review/
 ├── pipeline/
 │   ├── config.py            # file names, required columns, paths
 │   └── run_pipeline.py      # the ELT pipeline (entry point)
@@ -26,7 +26,7 @@ olist-wbr/
 │   ├── make_charts.py       # Part D charts (matplotlib)
 │   ├── build_report.py      # builds the PDF report
 │   └── figures/
-├── data/raw/                # put the Kaggle CSVs here
+├── data/raw/                # put the Kaggle CSVs here (see data/raw/README.md)
 ├── requirements.txt
 └── README.md
 ```
@@ -52,12 +52,14 @@ olist-wbr/
    ```
    It creates `warehouse/olist.duckdb` and logs every step to the console and to `logs/pipeline.log`.
    Exit code is `0` on success and `1` on any failure.
-4. **Run a Part C query** (any file in `sql/analysis/`):
+4. **Run a Part C query** (any file in `sql/analysis/`), for example with the DuckDB CLI:
    ```bash
-   python -c "import duckdb; c=duckdb.connect('warehouse/olist.duckdb', read_only=True); \
-print(c.execute(open('sql/analysis/q4_repeat_purchase_rate.sql').read()).df())"
+   duckdb warehouse/olist.duckdb < sql/analysis/q1_mom_revenue_growth.sql
    ```
-   or with the DuckDB CLI: `duckdb warehouse/olist.duckdb < sql/analysis/q1_mom_revenue_growth.sql`
+   or from Python:
+   ```bash
+   python -c "import duckdb; c = duckdb.connect('warehouse/olist.duckdb', read_only=True); print(c.execute(open('sql/analysis/q4_repeat_purchase_rate.sql').read()).df())"
+   ```
 5. **Build the charts and the PDF report:**
    ```bash
    python -m report.make_charts
