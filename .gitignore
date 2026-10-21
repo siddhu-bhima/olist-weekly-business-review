@@ -1,0 +1,7 @@
+# data is downloaded from Kaggle, not committed
+data/raw/*.csv
+warehouse/
+logs/
+__pycache__/
+*.pyc
+.venv/
